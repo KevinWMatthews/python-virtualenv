@@ -1,0 +1,63 @@
+To set up a virtual environment, first install
+virtualenv
+Good luck. Read my notes in Install.
+
+# Basically,
+sudo pip install virtualenv
+# For awhile I couldn't run virtualenv
+# But I also installed virtualenvwrapper
+sudo pip install virtualenvwrapper
+# and I wonder if this command fixed things.
+source /usr/local/bin/virtualenvwrapper.sh
+# maybe this helped
+sudo ldconfig
+
+I've been using virtualenv and the tutorial at
+http://docs.python-guide.org/en/latest/dev/virtualenvs/
+because it actually works.
+
+cd <project>
+
+### Create a virtual environment (you only do this once).
+# This has access to all of the system's python packages.
+virtualenv <venv_name>
+
+# This should not have access to the system's python packages, unless you edit PYTHONPATH somewhere.
+virtualenv --no-site-packages <venv_name>
+# This doesn't seem to make a difference for me.
+# Check PYTHONPATH with
+printenv
+
+# I think the virtual enviroment directory should be ignore in the git repo.
+# Instead, use
+pip freeze > requirements.txt
+# to generate a list of require packages.
+
+# Set python interpreter for this virtual environment
+virtualenv -p /usr/bin/python2.7 <venv_name>
+
+# Set python interpreter for all proejcts
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python2.7
+
+# Activate the virtual environment
+source venv/bin/activate
+
+# To install packages, use pip (not sudo!)
+pip install requests
+# This installs the package in the local environment only.
+# If you use sudo, it gets installed globally, which defeats the purpose of a virtual environment.
+
+# To list all packages that are installed in this virtual environment, use
+pip freeze
+# this does not list pip and its requirements; for that, use
+pip freeze --all
+#or possibly
+pip list
+
+
+To remove a virtual environment,
+source venv/bin/activate
+pip freeze > requirements.txt
+pip uninstall -r requirements.txt
+deactivate
+rm -r venv/
